@@ -1,0 +1,22 @@
+Executive Summary
+Team: Harshavardhan Chitta, Azu Lee, Rucha Nimbalkar, Kebra Thompson
+
+Project 4, due 12/13/15
+
+Assignment Overview
+
+The purpose of this project was to implement our key-value store in a replicated Paxos-based system. The advantage of using this system compared with the two phase commit protocol implemented in project 3, is that Paxos is fault tolerant. If a server goes down, that doesn't impact the ability of the other servers to reach consensus and make the appropriate put or delete on more than half of the servers' key-value stores. The primary goal of the project is to "focus on the Paxos implementation and algorithmic steps involved in realizing consensus". 
+
+Other requirements for the servers include:
+*Implement the three primary Paxos roles of proposers, acceptors, and learners
+*Acceptors must be configured to fail sometimes (see below for how we chose to implement this feature)
+*The key-value store must be pre-populated  with data and the program must run 5 puts, 5 gets, and 5 deletes
+*System must be uploaded and run on the UWT cluster
+
+Technical Impression
+
+Our group was able to decide fairly quickly on a strategy for implementation and made pretty good progress from the beginning on the project. We chose to implement the three roles as methods within the servers and not as separate classes as we felt this was more clear in showing that the three roles are just what the server can take on, not a separate entity. We chose not to construct the extra feature of leader election which would have helped to minimize livelock. 
+
+In order to implement the random failure of nodes, we have acceptors randomly choose either 0 or 1 both when they are asked to reply with a promise or with an accept. If they choose 0, they return failure. If they choose 1, they continue with the process. For example, if asked to promise, if the server selects 1, they would then check to see if the sequence number if valid and respond with a promise accordingly.
+
+The most challenging part of this assignment was understanding how Paxos works in the first place. Implementing it was less difficult than comprehending how it works and why it works successfully. However, the fact that we had two lectures about it and the papers to read describing it really helped. By the time we met to plan our implementation, we had a pretty good idea of how Paxos is supposed to work. We are also becoming more comfortable with the command line and with using the cluster so that took much less time than on previous projects.
